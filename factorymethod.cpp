@@ -1,49 +1,50 @@
 #include <iostream>
-#include <string>
-#include <memory>
+using namespace std;
 
 // Interface
 class IAnimal {
 public:
-    virtual void speak() const = 0;
-    virtual ~IAnimal() = default;
+    virtual void makeSound() = 0;
 };
 
 // Concrete classes
 class Dog : public IAnimal {
 public:
-    void speak() const override {
-        std::cout << "I am Dog" << std::endl;
+    void makeSound() {
+        cout << "I am Dog" << endl;
     }
 };
 
 class Cat : public IAnimal {
 public:
-    void speak() const override {
-        std::cout << "I am Cat" << std::endl;
+    void makeSound() {
+        cout << "I am Cat" << endl;
     }
 };
 
 // Factory Method
 class AnimalFactory {
 public:
-    enum class AnimalType { DOG, CAT };
-
-    static std::unique_ptr<IAnimal> create(AnimalType type) {
-        switch (type) {
-            case AnimalType::DOG: return std::make_unique<Dog>();
-            case AnimalType::CAT: return std::make_unique<Cat>();
-            default: return nullptr;
+    static IAnimal* create(string type) {
+        if (type == "dog") {
+            return new Dog();
+        } else if (type == "cat") {
+            return new Cat();
+        } else {
+            return NULL;
         }
     }
 };
 
 int main() {
-    auto dog = AnimalFactory::create(AnimalFactory::AnimalType::DOG);
-    auto cat = AnimalFactory::create(AnimalFactory::AnimalType::CAT);
+    IAnimal* dog = AnimalFactory::create("dog");
+    IAnimal* cat = AnimalFactory::create("cat");
 
-    dog->speak();
-    cat->speak();
+    dog->makeSound();
+    cat->makeSound();
+
+    delete dog;
+    delete cat;
 
     return 0;
 }
