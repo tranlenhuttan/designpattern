@@ -25,10 +25,12 @@ public:
 // Factory Method
 class AnimalFactory {
 public:
-    static IAnimal* create(string type) {
-        if (type == "dog") {
+    enum AnimalType { DOG, CAT };
+
+    static IAnimal* create(AnimalType type) {
+        if (type == DOG) {
             return new Dog();
-        } else if (type == "cat") {
+        } else if (type == CAT) {
             return new Cat();
         } else {
             return NULL;
@@ -37,8 +39,8 @@ public:
 };
 
 int main() {
-    IAnimal* dog = AnimalFactory::create("dog");
-    IAnimal* cat = AnimalFactory::create("cat");
+    IAnimal* dog = AnimalFactory::create(AnimalFactory::DOG);
+    IAnimal* cat = AnimalFactory::create(AnimalFactory::CAT);
 
     dog->makeSound();
     cat->makeSound();
